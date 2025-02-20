@@ -1,0 +1,12 @@
+package ru.yandex.practicum.filmorate.util;
+
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+
+public final class Constants {
+    public static final Instant DATE_BIRTH_CINEMA = Instant.ofEpochSecond(-2335564800L);
+    public static final DateTimeFormatter DATE_TIME_FORMATTER_DD_MM_YYYY = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    private Constants() {
+    }
+}
