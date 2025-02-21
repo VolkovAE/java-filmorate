@@ -13,6 +13,9 @@ public class Config implements EnvironmentAware {
     @Getter
     private static Level levelLog;
 
+    @Getter
+    private static String port;
+
     @Override
     public void setEnvironment(final Environment environment) {
         this.environment = environment;
@@ -21,6 +24,7 @@ public class Config implements EnvironmentAware {
     }
 
     private void init() {
+        //app.LevelLog
         String value = environment.getProperty("app.LevelLog");
 
         if (value == null) Config.levelLog = Level.TRACE;
@@ -30,5 +34,11 @@ public class Config implements EnvironmentAware {
         else if (value.equals("WARN")) Config.levelLog = Level.WARN;
         else if (value.equals("ERROR")) Config.levelLog = Level.ERROR;
         else Config.levelLog = Level.INFO;
+
+        //server.port
+        value = environment.getProperty("server.port");
+
+        if (value == null) port = "8080";
+        else port = value;
     }
 }
