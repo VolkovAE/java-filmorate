@@ -37,7 +37,7 @@ class FilmorateApplicationTests {
         jsonFilm.addProperty("description", "Когда засуха, пыльные бури и вымирание растений приводят " +
                 "человечество к продовольственному кризису, коллектив исследователей и учёных отправляется " +
                 "сквозь червоточину, чтобы себя спасти.");
-        jsonFilm.addProperty("releaseDate", "06.11.2014");
+        jsonFilm.addProperty("releaseDate", "2014-11-06");
         jsonFilm.addProperty("duration", 10140);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -65,7 +65,7 @@ class FilmorateApplicationTests {
         jsonFilm.addProperty("name", "Зеленая миля");
         jsonFilm.addProperty("description", "Пол Эджкомб — начальник блока смертников в тюрьме «Холодная гора», " +
                 "каждый из узников которого однажды проходит «зеленую милю» по пути к месту казни.");
-        jsonFilm.addProperty("releaseDate", "18.04.1999");
+        jsonFilm.addProperty("releaseDate", "1999-04-18");
         jsonFilm.addProperty("duration", 11340);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -91,7 +91,7 @@ class FilmorateApplicationTests {
         long id = jsonObject.get("id").getAsLong();
 
         //Обновляем фильм, только дату выпуска фильма (исправляем).
-        String correctReleaseDate = "18.04.2000";
+        String correctReleaseDate = "2000-04-18";
 
         JsonObject jsonFilmUpdate = new JsonObject();
         jsonFilmUpdate.addProperty("id", id);
@@ -133,7 +133,7 @@ class FilmorateApplicationTests {
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
                 "сражается с хулиганом Верзилой, весьма оригинальным способом готовится к экзамену и " +
                 "предотвращает «ограбление века».");
-        jsonFilm.addProperty("releaseDate", "23.07.1965");
+        jsonFilm.addProperty("releaseDate", "1965-07-23");
         jsonFilm.addProperty("duration", 5700);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -183,7 +183,7 @@ class FilmorateApplicationTests {
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
                 "сражается с хулиганом Верзилой, весьма оригинальным способом готовится к экзамену и " +
                 "предотвращает «ограбление века», на которое идёт троица бандитов — Балбес, Трус и Бывалый.");
-        jsonFilm.addProperty("releaseDate", "23.07.1965");
+        jsonFilm.addProperty("releaseDate", "1965-07-23");
         jsonFilm.addProperty("duration", 5700);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -234,7 +234,7 @@ class FilmorateApplicationTests {
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
                 "сражается с хулиганом Верзилой, весьма оригинальным способом готовится к экзамену и " +
                 "предотвращает «ограбление века».");
-        jsonFilm.addProperty("releaseDate", "23.07.1965");
+        jsonFilm.addProperty("releaseDate", "1965-07-23");
         jsonFilm.addProperty("duration", 5700);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -303,7 +303,7 @@ class FilmorateApplicationTests {
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
                 "сражается с хулиганом Верзилой, весьма оригинальным способом готовится к экзамену и " +
                 "предотвращает «ограбление века».");
-        jsonFilm.addProperty("releaseDate", "27.12.1895");
+        jsonFilm.addProperty("releaseDate", "1895-12-27");
         jsonFilm.addProperty("duration", 5700);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -353,7 +353,7 @@ class FilmorateApplicationTests {
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
                 "сражается с хулиганом Верзилой, весьма оригинальным способом готовится к экзамену и " +
                 "предотвращает «ограбление века»!");
-        jsonFilm.addProperty("releaseDate", "28.12.1895");
+        jsonFilm.addProperty("releaseDate", "1895-12-28");
         jsonFilm.addProperty("duration", 5700);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -380,7 +380,7 @@ class FilmorateApplicationTests {
         jsonFilm.addProperty("name", "Операция «Ы» и другие приключения Шурика");
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
                 "длительность равна null");
-        jsonFilm.addProperty("releaseDate", "28.12.1895");
+        jsonFilm.addProperty("releaseDate", "1895-12-28");
         //jsonFilm.addProperty("duration", 5700);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -429,7 +429,7 @@ class FilmorateApplicationTests {
         jsonFilm.addProperty("name", "Операция «Ы» и другие приключения Шурика");
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
                 "длительность равна 0");
-        jsonFilm.addProperty("releaseDate", "28.12.1895");
+        jsonFilm.addProperty("releaseDate", "1895-12-28");
         jsonFilm.addProperty("duration", 0);//5700);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -478,7 +478,7 @@ class FilmorateApplicationTests {
         jsonFilm.addProperty("name", "Операция «Ы» и другие приключения Шурика");
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
                 "длительность равна -1");
-        jsonFilm.addProperty("releaseDate", "28.12.1895");
+        jsonFilm.addProperty("releaseDate", "1895-12-28");
         jsonFilm.addProperty("duration", -1);//5700);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -523,7 +523,7 @@ class FilmorateApplicationTests {
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
 
         //Обновляем фильм, только дату выпуска фильма (исправляем).
-        String correctReleaseDate = "18.04.2000";
+        String correctReleaseDate = "2000-04-18";
 
         JsonObject jsonFilmUpdate = new JsonObject();
         //jsonFilmUpdate.addProperty("id", id);
@@ -565,13 +565,13 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400UpdateFilmWithIDNotExist() throws IOException, InterruptedException {
+    void shouldBeStatus404UpdateFilmWithIDNotExist() throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
 
         //Обновляем фильм, только дату выпуска фильма (исправляем).
-        String correctReleaseDate = "18.04.2000";
+        String correctReleaseDate = "2000-04-18";
         long id = 1_000_000_000L;
 
         JsonObject jsonFilmUpdate = new JsonObject();
@@ -588,7 +588,7 @@ class FilmorateApplicationTests {
         // вызываем рест, отвечающий за обновление данных о фильме
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        assertEquals(400, response.statusCode());
+        assertEquals(404, response.statusCode());
 
         //Проверим по сообщению, что действительно из-за указания несуществующего id.
         //Проверяем формат ответа от сервера.
@@ -682,7 +682,7 @@ class FilmorateApplicationTests {
         jsonUsers.addProperty("email", "Chadrick79@hotmail.com");
         jsonUsers.addProperty("login", "Kacie.Koch");
         jsonUsers.addProperty("name", "KK_");
-        jsonUsers.addProperty("birthday", "06.11.1954");
+        jsonUsers.addProperty("birthday", "1954-11-06");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -709,7 +709,7 @@ class FilmorateApplicationTests {
         jsonUsers.addProperty("email", "Joelle90@hotmail.com");
         jsonUsers.addProperty("login", "Ella_Kshlerin");
         //jsonUsers.addProperty("name", "");
-        jsonUsers.addProperty("birthday", "13.12.1974");
+        jsonUsers.addProperty("birthday", "1974-12-13");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -837,7 +837,7 @@ class FilmorateApplicationTests {
         // вызываем рест, отвечающий за обновление данных о пользователе
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        assertEquals(400, response.statusCode());
+        assertEquals(404, response.statusCode());
 
         //Проверим по сообщению, что действительно из-за не существующего id.
         //Проверяем формат ответа от сервера.
@@ -873,7 +873,7 @@ class FilmorateApplicationTests {
         //jsonUsers.addProperty("email", "Joelle90@hotmail.com");
         jsonUsers.addProperty("login", "Ella_Kshlerin");
         //jsonUsers.addProperty("name", "");
-        jsonUsers.addProperty("birthday", "13.12.1974");
+        jsonUsers.addProperty("birthday", "1974-12-13");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -922,7 +922,7 @@ class FilmorateApplicationTests {
         jsonUsers.addProperty("email", "Joelle90-hotmail.com");
         jsonUsers.addProperty("login", "Ella_Kshlerin");
         //jsonUsers.addProperty("name", "");
-        jsonUsers.addProperty("birthday", "13.12.1974");
+        jsonUsers.addProperty("birthday", "1974-12-13");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -971,7 +971,7 @@ class FilmorateApplicationTests {
         jsonUsers.addProperty("email", "Joelle90@hotmail.com");
         //jsonUsers.addProperty("login", "Ella_Kshlerin");
         //jsonUsers.addProperty("name", "");
-        jsonUsers.addProperty("birthday", "13.12.1974");
+        jsonUsers.addProperty("birthday", "1974-12-13");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -1020,7 +1020,7 @@ class FilmorateApplicationTests {
         jsonUsers.addProperty("email", "Joelle90@hotmail.com");
         jsonUsers.addProperty("login", "El");
         //jsonUsers.addProperty("name", "");
-        jsonUsers.addProperty("birthday", "13.12.1974");
+        jsonUsers.addProperty("birthday", "1974-12-13");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -1054,12 +1054,12 @@ class FilmorateApplicationTests {
 
         jsonObject = jsonElement.getAsJsonObject();
 
-        assertEquals("Длина логина не менее 3 и не более 16 символов. Логин не может содержать пробелы.",
+        assertEquals("Длина логина не менее 3 и не более 116 символов. Логин не может содержать пробелы.",
                 jsonObject.get("message").getAsString(), "Ошибка валидация по длине логина пользователя.");
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithLoginLength17() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithLoginLength117() throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
         URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
@@ -1067,9 +1067,10 @@ class FilmorateApplicationTests {
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
         jsonUsers.addProperty("email", "Joelle90@hotmail.com");
-        jsonUsers.addProperty("login", "Ella_Kshlerin1234");
+        jsonUsers.addProperty("login", "Ella_Kshlerin12340123456789012345678901234567890123456789" +
+                "012345678901234567890123456789012345678901234567890123456789");
         //jsonUsers.addProperty("name", "");
-        jsonUsers.addProperty("birthday", "13.12.1974");
+        jsonUsers.addProperty("birthday", "1974-12-13");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -1103,7 +1104,7 @@ class FilmorateApplicationTests {
 
         jsonObject = jsonElement.getAsJsonObject();
 
-        assertEquals("Длина логина не менее 3 и не более 16 символов. Логин не может содержать пробелы.",
+        assertEquals("Длина логина не менее 3 и не более 116 символов. Логин не может содержать пробелы.",
                 jsonObject.get("message").getAsString(), "Ошибка валидация по длине логина пользователя.");
     }
 
@@ -1118,7 +1119,7 @@ class FilmorateApplicationTests {
         jsonUsers.addProperty("email", "Joelle90@hotmail.com");
         jsonUsers.addProperty("login", "Ella Kshlerin");
         //jsonUsers.addProperty("name", "");
-        jsonUsers.addProperty("birthday", "13.12.1974");
+        jsonUsers.addProperty("birthday", "1974-12-13");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -1152,7 +1153,7 @@ class FilmorateApplicationTests {
 
         jsonObject = jsonElement.getAsJsonObject();
 
-        assertEquals("Длина логина не менее 3 и не более 16 символов. Логин не может содержать пробелы.",
+        assertEquals("Длина логина не менее 3 и не более 116 символов. Логин не может содержать пробелы.",
                 jsonObject.get("message").getAsString(), "Ошибка валидация по длине логина пользователя.");
     }
 
@@ -1216,7 +1217,7 @@ class FilmorateApplicationTests {
         jsonUsers.addProperty("email", "Earnest.Jacobs@gmail.com");
         jsonUsers.addProperty("login", "Car_Macejkovic");
         //jsonUsers.addProperty("name", "");
-        jsonUsers.addProperty("birthday", "13.12.2974");
+        jsonUsers.addProperty("birthday", "2974-12-13");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -1265,7 +1266,7 @@ class FilmorateApplicationTests {
         jsonUsers.addProperty("email", "Angel.Glover@hotmail.com");
         jsonUsers.addProperty("login", "Pat_Stanton");
         jsonUsers.addProperty("name", "KK_1");
-        jsonUsers.addProperty("birthday", "31.12.1987");
+        jsonUsers.addProperty("birthday", "1987-12-31");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -1285,7 +1286,7 @@ class FilmorateApplicationTests {
         jsonUsers.addProperty("email", "Angel.Glover@hotmail.com");
         jsonUsers.addProperty("login", "Car_Macejkovic");
         //jsonUsers.addProperty("name", "");
-        jsonUsers.addProperty("birthday", "13.12.1974");
+        jsonUsers.addProperty("birthday", "1974-12-13");
 
         request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -1334,7 +1335,7 @@ class FilmorateApplicationTests {
         jsonUsers.addProperty("email", "Angel.Glover@hot.com");
         jsonUsers.addProperty("login", "Pat_Stanton15");
         jsonUsers.addProperty("name", "KK_1");
-        jsonUsers.addProperty("birthday", "31.12.1987");
+        jsonUsers.addProperty("birthday", "1987-12-31");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -1354,7 +1355,7 @@ class FilmorateApplicationTests {
         jsonUsers.addProperty("email", "Glover@hotmail.com");
         jsonUsers.addProperty("login", "Pat_Stanton15");
         //jsonUsers.addProperty("name", "");
-        jsonUsers.addProperty("birthday", "13.12.1974");
+        jsonUsers.addProperty("birthday", "1974-12-13");
 
         request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")

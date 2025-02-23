@@ -28,7 +28,8 @@ public class User {
     @FieldDescription("Электронная почта")
     private String email;   //электронная почта
 
-    @Pattern(regexp = "^[^\\s]{3,16}$", message = "Длина логина не менее 3 и не более 16 символов. Логин не может содержать пробелы.")
+    //изменил верхнюю границу логина с 16 до 116 символов
+    @Pattern(regexp = "^[^\\s]{3,116}$", message = "Длина логина не менее 3 и не более 116 символов. Логин не может содержать пробелы.")
     @NotBlank(message = "Логин не может быть пустым.", groups = Marker.OnCreate.class)
     @FieldDescription("Логин пользователя")
     private String login;   //логин пользователя

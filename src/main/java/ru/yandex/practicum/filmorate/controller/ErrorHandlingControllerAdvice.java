@@ -80,7 +80,8 @@ public class ErrorHandlingControllerAdvice {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    //@ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)   //заменил как более подходящее (по результату теста практикума)
     @ResponseBody
     public ValidationErrorResponse onNotFoundException(NotFoundException e) {
         Violation violation = new Violation("-", e.getMessage());
