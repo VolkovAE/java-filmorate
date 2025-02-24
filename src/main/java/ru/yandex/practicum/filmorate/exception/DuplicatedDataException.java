@@ -9,6 +9,6 @@ public class DuplicatedDataException extends RuntimeException {
 
     public DuplicatedDataException(String message, Logger logger) {
         this(message);
-        logger.warn(message);
+        logger.error(message);
     }
 }

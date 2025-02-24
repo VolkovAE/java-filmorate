@@ -45,7 +45,7 @@ public class ErrorHandlingControllerAdvice {
                 )
                 .collect(Collectors.toList());
 
-        log.warn("Ошибка валидации: {}", violations);
+        log.error("Ошибка валидации: {}", violations);
 
         return new ValidationErrorResponse(violations);
     }
@@ -64,7 +64,7 @@ public class ErrorHandlingControllerAdvice {
                 .map(error -> new Violation(error.getField(), error.getDefaultMessage()))
                 .collect(Collectors.toList());
 
-        log.warn("Объект не прошел валидацию: {}", violations);
+        log.error("Объект не прошел валидацию: {}", violations);
 
         return new ValidationErrorResponse(violations);
     }
