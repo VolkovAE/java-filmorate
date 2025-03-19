@@ -1,29 +1,26 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.ConstraintViolationException;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.exception.DuplicatedDataException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
-import ru.yandex.practicum.filmorate.util.Config;
 import ru.yandex.practicum.filmorate.validation.ValidationErrorResponse;
 import ru.yandex.practicum.filmorate.validation.Violation;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
-@ControllerAdvice
+@RestControllerAdvice
+//@Slf4j
 public class ErrorHandlingControllerAdvice {
-    public ErrorHandlingControllerAdvice() {
-        ((ch.qos.logback.classic.Logger) log).setLevel(Config.getLevelLog());
-    }
+    private final static Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ErrorHandlingControllerAdvice.class);
 
     /**
      * Отлавливаю исключения типа ConstraintViolationException, ошибка в параметрах запроса, параметрах пути.
@@ -34,7 +31,6 @@ public class ErrorHandlingControllerAdvice {
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
     public ValidationErrorResponse onConstraintValidationException(ConstraintViolationException e) {
         final List<Violation> violations = e.getConstraintViolations().stream()
                 .map(
@@ -58,7 +54,6 @@ public class ErrorHandlingControllerAdvice {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
     public ValidationErrorResponse onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         final List<Violation> violations = e.getBindingResult().getFieldErrors().stream()
                 .map(error -> new Violation(error.getField(), error.getDefaultMessage()))
@@ -71,7 +66,6 @@ public class ErrorHandlingControllerAdvice {
 
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
     public ValidationErrorResponse onValidationException(ValidationException e) {
         Violation violation = new Violation("-", e.getMessage());
         List<Violation> violationList = List.of(violation);
@@ -82,7 +76,6 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(NotFoundException.class)
     //@ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseStatus(HttpStatus.NOT_FOUND)   //заменил как более подходящее (по результату теста практикума)
-    @ResponseBody
     public ValidationErrorResponse onNotFoundException(NotFoundException e) {
         Violation violation = new Violation("-", e.getMessage());
         List<Violation> violationList = List.of(violation);
@@ -92,11 +85,16 @@ public class ErrorHandlingControllerAdvice {
 
     @ExceptionHandler(DuplicatedDataException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
     public ValidationErrorResponse onDuplicatedDataException(DuplicatedDataException e) {
         Violation violation = new Violation("-", e.getMessage());
         List<Violation> violationList = List.of(violation);
 
         return new ValidationErrorResponse(violationList);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse runtimeException(RuntimeException e) {
+        return new ErrorResponse("Произошла непредвиденная ошибка. Информация: " + e.getMessage() + ".");
     }
 }

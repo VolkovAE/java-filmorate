@@ -1,9 +1,9 @@
 package ru.yandex.practicum.filmorate.converters;
 
 import com.fasterxml.jackson.databind.util.StdConverter;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
-import ru.yandex.practicum.filmorate.util.Config;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -12,11 +12,9 @@ import java.time.format.DateTimeParseException;
 
 import static ru.yandex.practicum.filmorate.util.Constants.DATE_TIME_FORMATTER_YYYY_DD_MM;
 
-@Slf4j
+//@Slf4j
 public class StringToInstantConverter extends StdConverter<String, Instant> {
-    public StringToInstantConverter() {
-        ((ch.qos.logback.classic.Logger) log).setLevel(Config.getLevelLog());
-    }
+    private final static Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(StringToInstantConverter.class);
 
     @Override
     public Instant convert(String value) {

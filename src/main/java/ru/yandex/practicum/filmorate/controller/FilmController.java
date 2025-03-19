@@ -1,37 +1,34 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.util.Config;
-import ru.yandex.practicum.filmorate.util.FilmorateUtils;
-import ru.yandex.practicum.filmorate.util.Reflection;
+import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.validation.Marker;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @Validated
 @RestController
 @RequestMapping("/films")
-@Slf4j(topic = "Фильмы")
+//@Slf4j(topic = "Фильмы")
 public class FilmController {
-    private final Map<Long, Film> films = new HashMap<>();
+    private final FilmStorage filmStorage;
+    private final FilmService filmService;
 
-    public FilmController() {
-        ((ch.qos.logback.classic.Logger) log).setLevel(Config.getLevelLog());
-    }
+    private final static Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(FilmController.class);
 
-    @GetMapping
-    public Collection<Film> findAll() {
-        log.info("Обработан запрос на получение списка фильмов.");
-
-        return films.values();
+    @Autowired
+    public FilmController(FilmStorage filmStorage, FilmService filmService) {
+        this.filmStorage = filmStorage;
+        this.filmService = filmService;
     }
 
     @PostMapping
@@ -40,30 +37,52 @@ public class FilmController {
         // проверку выполнения необходимых условий осуществил через валидацию полей
         // обработчик выполняется после успешной валидации полей
 
-        // формируем дополнительные данные
-        film.setId(FilmorateUtils.getNextId(films));
-        // сохраняем новый фильм в памяти приложения
-        films.put(film.getId(), film);
-
-        log.info("Обработан запрос на добавление нового фильма {}.", film);
-
-        return film;
+        return filmStorage.add(film);
     }
 
-    @Validated(Marker.OnUpdate.class)
     @PutMapping
+    @Validated(Marker.OnUpdate.class)
     public Film update(@RequestBody @Valid Film newFilm) {
         // проверку выполнения необходимых условий осуществил через валидацию полей
         // обработчик выполняется после успешной валидации полей
-        if (films.containsKey(newFilm.getId())) {
-            Film oldFilm = films.get(newFilm.getId());
-            // обновляем содержимое
-            BeanUtils.copyProperties(newFilm, oldFilm, Reflection.getIgnoreProperties(newFilm));
 
-            log.info("Обработан запрос на изменение данных фильма {}.", oldFilm);
+        return filmStorage.update(newFilm);
+    }
 
-            return oldFilm;
-        }
-        throw new NotFoundException("Фильм с id = " + newFilm.getId() + " не найден.", log);
+    @DeleteMapping
+    @Validated(Marker.OnDelete.class)
+    public Film delete(@RequestBody @Valid Film delFilm) {
+        // проверку выполнения необходимых условий осуществил через валидацию полей
+        // обработчик выполняется после успешной валидации полей
+
+        return filmStorage.delete(delFilm);
+    }
+
+    @GetMapping
+    public Collection<Film> findAll() {
+        return filmStorage.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Film findById(@PathVariable(name = "id") Long filmId) {
+        return filmStorage.getById(filmId).orElseThrow(
+                () -> new NotFoundException("Фильм с id = " + filmId + " не найден.", log));
+    }
+
+    @PutMapping("/{id}/like/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addLike(@PathVariable(name = "id") Long filmId, @PathVariable(name = "userId") Long userId) {
+        filmService.add(filmId, userId);
+    }
+
+    @DeleteMapping("/{id}/like/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteLike(@PathVariable(name = "id") Long filmId, @PathVariable(name = "userId") Long userId) {
+        filmService.delete(filmId, userId);
+    }
+
+    @GetMapping("/popular")
+    public Collection<Film> getPopular(@RequestParam(name = "count", defaultValue = "10") long count) {
+        return filmService.getPopular(count);
     }
 }
