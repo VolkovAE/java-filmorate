@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 public class UserService {
     private final UserStorage userStorage;
 
-    private final static Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(UserService.class);
+    private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     public UserService(UserStorage userStorage) {

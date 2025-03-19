@@ -21,7 +21,7 @@ import java.util.Optional;
 public class InMemoryUserStorage implements UserStorage {
     private final Map<Long, User> users = new HashMap<>();
 
-    private final static Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(InMemoryUserStorage.class);
+    private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(InMemoryUserStorage.class);
 
     @Override
     public User add(User user) {

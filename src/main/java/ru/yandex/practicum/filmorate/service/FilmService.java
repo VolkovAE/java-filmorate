@@ -21,7 +21,7 @@ public class FilmService {
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
 
-    private final static Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(FilmService.class);
+    private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(FilmService.class);
 
     @Autowired
     public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
