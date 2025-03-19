@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 //@Slf4j
 public class ErrorHandlingControllerAdvice {
-    private final static Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ErrorHandlingControllerAdvice.class);
+    private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ErrorHandlingControllerAdvice.class);
 
     /**
      * Отлавливаю исключения типа ConstraintViolationException, ошибка в параметрах запроса, параметрах пути.

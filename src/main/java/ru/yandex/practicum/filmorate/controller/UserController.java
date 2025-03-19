@@ -23,7 +23,7 @@ public class UserController {
     private final UserStorage userStorage;
     private final UserService userService;
 
-    private final static Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(UserController.class);
+    private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserStorage userStorage, UserService userService) {

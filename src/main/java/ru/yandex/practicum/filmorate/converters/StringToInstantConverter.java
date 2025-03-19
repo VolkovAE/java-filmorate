@@ -14,7 +14,7 @@ import static ru.yandex.practicum.filmorate.util.Constants.DATE_TIME_FORMATTER_Y
 
 //@Slf4j
 public class StringToInstantConverter extends StdConverter<String, Instant> {
-    private final static Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(StringToInstantConverter.class);
+    private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(StringToInstantConverter.class);
 
     @Override
     public Instant convert(String value) {

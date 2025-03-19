@@ -23,7 +23,7 @@ public class FilmController {
     private final FilmStorage filmStorage;
     private final FilmService filmService;
 
-    private final static Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(FilmController.class);
+    private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(FilmController.class);
 
     @Autowired
     public FilmController(FilmStorage filmStorage, FilmService filmService) {

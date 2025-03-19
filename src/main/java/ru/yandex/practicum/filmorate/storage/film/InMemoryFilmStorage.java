@@ -19,7 +19,7 @@ import java.util.Optional;
 public class InMemoryFilmStorage implements FilmStorage {
     private final Map<Long, Film> films = new HashMap<>();
 
-    private final static Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(InMemoryFilmStorage.class);
+    private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(InMemoryFilmStorage.class);
 
     @Override
     public Film add(Film film) {
