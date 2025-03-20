@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,7 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public Collection<Film> getPopular(@RequestParam(name = "count", defaultValue = "10") long count) {
+    public Collection<Film> getPopular(@RequestParam(name = "count", defaultValue = "10") @Positive long count) {
         return filmService.getPopular(count);
     }
 }
