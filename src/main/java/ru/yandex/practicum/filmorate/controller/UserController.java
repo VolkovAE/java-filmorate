@@ -18,7 +18,6 @@ import java.util.Collection;
 @Validated
 @RestController
 @RequestMapping("/users")
-//@Slf4j(topic = "Пользователи")
 public class UserController {
     private final UserStorage userStorage;
     private final UserService userService;

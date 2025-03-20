@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
-//@Slf4j(topic = "Фильмы")
 public class InMemoryFilmStorage implements FilmStorage {
     private final Map<Long, Film> films = new HashMap<>();
 

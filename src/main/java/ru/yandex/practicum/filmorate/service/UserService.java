@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-//@Slf4j(topic = "Сервис друзей")
 public class UserService {
     private final UserStorage userStorage;
 

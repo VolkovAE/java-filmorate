@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
-//@Slf4j
 public class ErrorHandlingControllerAdvice {
     private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ErrorHandlingControllerAdvice.class);
 
@@ -74,8 +73,7 @@ public class ErrorHandlingControllerAdvice {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    //@ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseStatus(HttpStatus.NOT_FOUND)   //заменил как более подходящее (по результату теста практикума)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ValidationErrorResponse onNotFoundException(NotFoundException e) {
         Violation violation = new Violation("-", e.getMessage());
         List<Violation> violationList = List.of(violation);

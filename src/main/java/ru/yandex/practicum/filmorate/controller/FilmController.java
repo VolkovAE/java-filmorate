@@ -18,7 +18,6 @@ import java.util.Collection;
 @Validated
 @RestController
 @RequestMapping("/films")
-//@Slf4j(topic = "Фильмы")
 public class FilmController {
     private final FilmStorage filmStorage;
     private final FilmService filmService;

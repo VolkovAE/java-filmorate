@@ -16,7 +16,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-//@Slf4j(topic = "Сервис оценки фильмов")
 public class FilmService {
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
@@ -62,16 +61,6 @@ public class FilmService {
     }
 
     public Collection<Film> getPopular(final long count) {
-        //Получить список фильмов, у которых количество лайков больше или равно count.
-//        return filmStorage.findAll().stream()
-//                .filter(film -> film.getLikes().size() >= count)
-//                .sorted(Comparator.comparing(film -> film.getLikes().size()))
-//                .toList();
-//        return filmStorage.findAll().stream()
-//                .filter(film -> film.getLikes().size() >= count)
-//                .sorted(Comparator.comparing(film -> film))
-//                .toList();
-
         //Возвращает список из первых count фильмов по количеству лайков.
         Collection<Film> filmsByPopular = filmStorage.findAll().stream()
                 .collect(Collectors.toMap(film -> film, film -> film.getLikes().size()))
