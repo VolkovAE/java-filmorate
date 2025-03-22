@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.model.film;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -63,6 +63,14 @@ public class Film implements Comparable<Film> {
     @JsonIgnore
     @FieldDescription(value = "id пользователей, которые поставили фильму лайк", changeByCopy = false)
     Set<Long> likes = new HashSet<>();
+
+    @JsonIgnore
+    @FieldDescription(value = "Жанры, к которым принадлежит фильм (может быть несколько)", changeByCopy = false)
+    Set<String> genre = new HashSet<>();
+
+    @JsonIgnore
+    @FieldDescription("Рейтинг фильма согласно Ассоциации кинокомпаний")
+    Rating rating;
 
     @Override
     public int compareTo(Film o) {
