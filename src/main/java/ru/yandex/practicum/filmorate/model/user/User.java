@@ -53,6 +53,5 @@ public class User {
 
     @JsonIgnore
     @FieldDescription(value = "id друзей пользователя со статусом связи (значений статуса может быть больше двух)", changeByCopy = false)
-    Map<Long, StatusFriendship> friends1 = new HashMap<>();
-    //Set<Long> friends = new HashSet<>();
+    Map<Long, StatusFriendship> friends = new HashMap<>();
 }
