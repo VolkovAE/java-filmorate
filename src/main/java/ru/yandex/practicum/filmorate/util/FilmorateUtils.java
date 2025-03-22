@@ -4,7 +4,6 @@ import java.util.Map;
 
 public final class FilmorateUtils {
     private FilmorateUtils() {
-
     }
 
     public static <T> long getNextId(Map<Long, T> map) {

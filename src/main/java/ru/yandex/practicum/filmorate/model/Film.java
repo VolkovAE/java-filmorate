@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.NotBlank;
@@ -21,6 +22,8 @@ import ru.yandex.practicum.filmorate.validation.ReleaseDate;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Film.
@@ -28,9 +31,10 @@ import java.time.Instant;
 @Data
 @EqualsAndHashCode(of = {"id"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Film {
+public class Film implements Comparable<Film> {
     @Null(message = "При создании фильма id формируется автоматически.", groups = Marker.OnCreate.class)
-    @NotNull(message = "При обновлении данных о фильме должен быть указан его id.", groups = Marker.OnUpdate.class)
+    @NotNull(message = "При обновлении данных о фильме должен быть указан его id.",
+            groups = {Marker.OnUpdate.class, Marker.OnDelete.class})
     @FieldDescription(value = "Уникальный идентификатор фильма", changeByCopy = false)
     Long id;
 
@@ -55,4 +59,13 @@ public class Film {
     @DurationPositive
     @FieldDescription("Продолжительность фильма")
     Duration duration;
+
+    @JsonIgnore
+    @FieldDescription(value = "id пользователей, которые поставили фильму лайк", changeByCopy = false)
+    Set<Long> likes = new HashSet<>();
+
+    @Override
+    public int compareTo(Film o) {
+        return Long.compare(this.likes.size(), o.likes.size());
+    }
 }

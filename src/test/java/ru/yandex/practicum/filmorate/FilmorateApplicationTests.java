@@ -5,8 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.yandex.practicum.filmorate.util.Config;
 
 import java.io.IOException;
 import java.net.URI;
@@ -26,10 +26,10 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void addFilm() throws IOException, InterruptedException {
+    void addFilm(@Value("${server.port}") String port) throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -55,10 +55,10 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void updateFilm() throws IOException, InterruptedException {
+    void updateFilm(@Value("${server.port}") String port) throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -122,10 +122,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateFilmWithNameNull() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateFilmWithNameNull(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -172,10 +173,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateFilmWithDescriptionLength201() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateFilmWithDescriptionLength201(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -223,10 +225,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus200updateFilmWithDescriptionLength200() throws IOException, InterruptedException {
+    void shouldBeStatus200updateFilmWithDescriptionLength200(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -292,10 +295,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateFilmWithReleaseDate27121895() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateFilmWithReleaseDate27121895(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -342,10 +346,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus200CreateFilmWithReleaseDate28121895() throws IOException, InterruptedException {
+    void shouldBeStatus200CreateFilmWithReleaseDate28121895(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -370,10 +375,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateFilmWithDurationNull() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateFilmWithDurationNull(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -419,10 +425,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateFilmWithDuration0() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateFilmWithDuration0(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -468,10 +475,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateFilmWithDurationNegative() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateFilmWithDurationNegative(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -517,10 +525,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400UpdateFilmWithIDNull() throws IOException, InterruptedException {
+    void shouldBeStatus400UpdateFilmWithIDNull(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Обновляем фильм, только дату выпуска фильма (исправляем).
         String correctReleaseDate = "2000-04-18";
@@ -565,10 +574,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus404UpdateFilmWithIDNotExist() throws IOException, InterruptedException {
+    void shouldBeStatus404UpdateFilmWithIDNotExist(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Обновляем фильм, только дату выпуска фильма (исправляем).
         String correctReleaseDate = "2000-04-18";
@@ -614,10 +624,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateFilmWithBodyEmpty() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateFilmWithBodyEmpty(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -643,10 +654,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400UpdateFilmWithBodyEmpty() throws IOException, InterruptedException {
+    void shouldBeStatus400UpdateFilmWithBodyEmpty(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
         JsonObject jsonFilm = new JsonObject();
@@ -672,10 +684,10 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void addUser() throws IOException, InterruptedException {
+    void addUser(@Value("${server.port}") String port) throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -699,10 +711,10 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void updateUser() throws IOException, InterruptedException {
+    void updateUser(@Value("${server.port}") String port) throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -766,10 +778,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400UpdateUserWithIDNull() throws IOException, InterruptedException {
+    void shouldBeStatus400UpdateUserWithIDNull(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Обновляем пользователя, только наименование.
         String newName = "Valdemar";
@@ -814,10 +827,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400UpdateUserWithIDNotExist() throws IOException, InterruptedException {
+    void shouldBeStatus400UpdateUserWithIDNotExist(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Обновляем пользователя, только наименование.
         long id = 1_000_000_000L;
@@ -863,10 +877,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithEmailNull() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithEmailNull(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -912,10 +927,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithEmailErrorFormat() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithEmailErrorFormat(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -961,10 +977,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithLoginNull() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithLoginNull(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -1010,10 +1027,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithLoginLength2() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithLoginLength2(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -1059,10 +1077,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithLoginLength117() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithLoginLength117(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -1109,10 +1128,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithLoginContainSpace() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithLoginContainSpace(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -1158,10 +1178,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithBirthdayIsNull() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithBirthdayIsNull(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -1207,10 +1228,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithBirthdayIsFuture() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithBirthdayIsFuture(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -1256,10 +1278,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithEmailNotUnique() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithEmailNotUnique(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -1325,10 +1348,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithLoginNotUnique() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithLoginNotUnique(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -1394,10 +1418,11 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus400CreateUserWithBodyEmpty() throws IOException, InterruptedException {
+    void shouldBeStatus400CreateUserWithBodyEmpty(@Value("${server.port}") String port)
+            throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         //Добавляем пользователя.
         JsonObject jsonUsers = new JsonObject();
@@ -1421,10 +1446,10 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus200GetUsers() throws IOException, InterruptedException {
+    void shouldBeStatus200GetUsers(@Value("${server.port}") String port) throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlUsers = URI.create(String.format("http://localhost:%s/users", Config.getPort()));
+        URI urlUsers = URI.create(String.format("http://localhost:%s/users", port));
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -1441,10 +1466,10 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    void shouldBeStatus200GetFilms() throws IOException, InterruptedException {
+    void shouldBeStatus200GetFilms(@Value("${server.port}") String port) throws IOException, InterruptedException {
         // создаём HTTP-клиент и запрос
         HttpClient client = HttpClient.newHttpClient();
-        URI urlFilms = URI.create(String.format("http://localhost:%s/films", Config.getPort()));
+        URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")

@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.*;
@@ -13,6 +14,8 @@ import ru.yandex.practicum.filmorate.validation.FieldDescription;
 import ru.yandex.practicum.filmorate.validation.Marker;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * User.
@@ -22,7 +25,8 @@ import java.time.Instant;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
     @Null(message = "При создании пользователя id формируется автоматически.", groups = Marker.OnCreate.class)
-    @NotNull(message = "При обновлении данных о пользователе должен быть указан его id.", groups = Marker.OnUpdate.class)
+    @NotNull(message = "При обновлении данных о пользователе должен быть указан его id.",
+            groups = {Marker.OnUpdate.class, Marker.OnDelete.class})
     @FieldDescription(value = "Уникальный идентификатор пользователя", changeByCopy = false)
     Long id;
 
@@ -46,4 +50,8 @@ public class User {
     @PastOrPresent(message = "Дата рождения не может быть в будущем.")
     @FieldDescription("Дата рождения")
     Instant birthday;
+
+    @JsonIgnore
+    @FieldDescription(value = "id друзей пользователя", changeByCopy = false)
+    Set<Long> friends = new HashSet<>();
 }
