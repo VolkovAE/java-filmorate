@@ -136,6 +136,7 @@ public class UserService {
         }
         user.setFriends(friends);
 
+        //todo переделать с учетом таблицы БД
         //Пользователю friend добавляем друга user.
         friends = friend.getFriends();
         friends.put(user.getId(), StatusFriendship.CONFIRM);    //направив запрос, он готов дружить
