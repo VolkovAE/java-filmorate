@@ -124,3 +124,6 @@ Filmorate Documentation
 ![link](/ER-diagram%20DB.png)
 
 Link to diagram: <https://app.quickdatabasediagrams.com/#/d/rpBiz0>
+
+\
+<span style="color:yellow">**todo** приложите примеры запросов для основных операций вашего приложения!!!</span>
