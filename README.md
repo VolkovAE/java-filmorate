@@ -12,7 +12,6 @@ Filmorate Documentation
 - Если в таблице нескольким полям установлена метка **PK**, это значит составной первичный ключ, в который
 входят отмеченные поля. Таблицы с составным ключом: **Film_Genre, Likes, Friends**.
 - Поле, которое является внешним ключом, имеет метку **FK**.
-- Если полю не указана метка **NULL**, это значит, что применяется по умолчанию метка **NOT NULL** (не указывается в явном виде).
 - Для использования ограничения уникальности полю ставят метку **UNIQUE**.
 
 \
@@ -20,36 +19,36 @@ Filmorate Documentation
 
 Таблица для хранения списка объектов класса Film.
 
-| Field       | Description                              | Type         | Default | Other    |
-|-------------|------------------------------------------|--------------|---------|----------|
-| id          |                                          | bigint       |         | PK       |
-| rating      | Рейтинг фильма                           | int4         |         | FK       |
-| name        | Наименование фильма                      | varchar      |         |          |
-| description | Описание фильма                          | varchar(200) |         | NULLABLE |
-| releaseDate | Дата выпуска фильма                      | date         |         |          |
-| duration    | Длительность фильма в секундах, больше 0 | int4>0       |         |          |
+| Field       | Description                              | Type         | Default | Other                                        |
+|-------------|------------------------------------------|--------------|---------|----------------------------------------------|
+| id          |                                          | int4         |         | PK                                           |
+| rating      | Рейтинг фильма                           | int4         |         | NOT NULL, FK Rating.id NO ACTION             |
+| name        | Наименование фильма                      | varchar      |         | NOT NULL, CHECK (TRIM('	 ' FROM name) != '') |
+| description | Описание фильма                          | varchar(200) | ''      | NOT NULL                                     |
+| releaseDate | Дата выпуска фильма                      | date         |         | NOT NULL                                     |
+| duration    | Длительность фильма в секундах, больше 0 | int4>0       |         | NOT NULL, > 0                                |
 
 \
 **Rating**
 
 Таблица для хранения списка рейтингов (объект класса Rating).
 
-| Field       | Description                                   | Type       | Default | Other    |
-|-------------|-----------------------------------------------|------------|---------|----------|
-| id          |                                               | int4       |         | PK       |
-| name        | Кодовое обозначение рейтинга (G, PG и другие) | varchar(5) |         | UNIQUE   |
-| description | Описание рейтинга                             | varchar    |         | NULLABLE |
+| Field       | Description                                   | Type       | Default | Other            |
+|-------------|-----------------------------------------------|------------|---------|------------------|
+| id          |                                               | int4       |         | PK               |
+| name        | Кодовое обозначение рейтинга (G, PG и другие) | varchar(5) |         | NOT NULL, UNIQUE |
+| description | Описание рейтинга                             | varchar    | ''      | NOT NULL         |
 
 \
 **Genre**
 
 Таблица для хранения списка жанров.
 
-| Field       | Description        | Type    | Default | Other    |
-|-------------|--------------------|---------|---------|----------|
-| id          |                    | int4    |         | PK       |
-| name        | Наименование жанра | varchar |         | UNIQUE   |
-| description | Описание жанра     | varchar |         | NULLABLE |
+| Field       | Description        | Type    | Default | Other            |
+|-------------|--------------------|---------|---------|------------------|
+| id          |                    | int4    |         | PK               |
+| name        | Наименование жанра | varchar |         | NOT NULL, UNIQUE |
+| description | Описание жанра     | varchar | ''      | NOT NULL         |
 
 \
 **Film_Genre**
@@ -59,23 +58,31 @@ Filmorate Documentation
 - один фильм принадлежит нескольким жанрам
 - одному жанру принадлежит несколько фильмов
 
-| Field     | Description | Type   | Default | Other  |
-|-----------|-------------|--------|---------|--------|
-| film\_id  | Фильм       | bigint |         | PK, FK |
-| genre\_id | Жанр        | int4   |         | PK, FK |
+| Field     | Description | Type | Default | Other                               |
+|-----------|-------------|------|---------|-------------------------------------|
+| film\_id  | Фильм       | int4 |         | PK, NOT NULL, FK Film.id NO ACTION  |
+| genre\_id | Жанр        | int4 |         | PK, NOT NULL, FK Genre.id NO ACTION |
 
 \
 **User**
 
 Таблица для хранения списка объектов класса User.
+\
+**Важно.** В СУБД PostgreSQL **user** зарезервировано. Для использования этого имени потребуется в запросах добавлять кавычки,
+что крайне не удобно и к тому же в СУБД MS SQL такого ограничения нет. Поэтому таблицу в СУБД H2 назовем **User_**. 
 
-| Field    | Description           | Type         | Default | Other    |
-|----------|-----------------------|--------------|---------|----------|
-| id       |                       | bigint       |         | PK       |
-| email    | эл.почта пользователя | varchar      |         | UNIQUE   |
-| login    | логин пользователя    | varchar(116) |         | UNIQUE   |
-| name     | имя пользователя      | varchar      |         | NULLABLE |
-| birthday | дата рождения         | date         |         |          |
+| Field    | Description           | Type         | Default | Other                                |
+|----------|-----------------------|--------------|---------|--------------------------------------|
+| id       |                       | int4         |         | PK                                   |
+| email    | эл.почта пользователя | varchar      |         | NOT NULL, UNIQUE,                    |
+|          |                       |              |         | CHECK (TRIM('	 ' FROM email) != ''), |
+|          |                       |              |         | CHECK(email LIKE '%@%')              | 
+| login    | логин пользователя    | varchar(116) |         | NOT NULL, UNIQUE,                    |
+|          |                       |              |         | CHECK (TRIM('	 ' FROM login) != '')  |
+| name     | имя пользователя      | varchar      |         | NOT NULL                             |
+| birthday | дата рождения         | date         |         | NOT NULL                             |
+
+*- для СУБД MS SQL. Для СУБД PostgreSQL, H2 значения по умолчанию не будет.
 
 \
 **Likes**
@@ -89,21 +96,21 @@ Filmorate Documentation
 
 Составной первичный ключ исключает постановку пользователем несколько лайков одному фильму.
 
-| Field    | Description                         | Type   | Default | Other  |
-|----------|-------------------------------------|--------|---------|--------|
-| film\_id | Фильм, которому поставлен лайк      | bigint |         | PK, FK |
-| user\_id | Пользователь, который поставил лайк | bigint |         | PK, FK |
+| Field    | Description                         | Type | Default | Other                              |
+|----------|-------------------------------------|------|---------|------------------------------------|
+| film\_id | Фильм, которому поставлен лайк      | int4 |         | PK, NOT NULL, FK Film.id NO ACTION |
+| user\_id | Пользователь, который поставил лайк | int4 |         | PK, NOT NULL, FK User.id NO ACTION |
 
 \
 **StatusFriendship**
 
 Таблица для хранения списка статусов дружеской связи.
 
-| Field       | Description                          | Type    | Default | Other    |
-|-------------|--------------------------------------|---------|---------|----------|
-| id          |                                      | int4    |         | PK       |
-| name        | Наименование статуса дружеской связи | varchar |         | UNIQUE   |
-| description | Описание статуса дружеской связи     | varchar |         | NULLABLE |
+| Field       | Description                          | Type    | Default | Other            |
+|-------------|--------------------------------------|---------|---------|------------------|
+| id          |                                      | int4    |         | PK               |
+| name        | Наименование статуса дружеской связи | varchar |         | NOT NULL, UNIQUE |
+| description | Описание статуса дружеской связи     | varchar | ''      | NOT NULL         |
 
 \
 **Friends**
@@ -112,11 +119,11 @@ Filmorate Documentation
 
 Составной ключ исключает дублирование дружеских связей между двумя пользователями.
 
-| Field     | Description            | Type   | Default | Other  |
-|-----------|------------------------|--------|---------|--------|
-| user_id   | Пользователь           | bigint |         | PK, FK |
-| friend_id | Друг пользователя      | bigint |         | PK, FK |
-| status_id | Статус дружеской связи | int4   |         | FK     |
+| Field     | Description            | Type | Default | Other                                      |
+|-----------|------------------------|------|---------|--------------------------------------------|
+| user_id   | Пользователь           | int4 |         | PK, NOT NULL, FK User.id NO ACTION         |
+| friend_id | Друг пользователя      | int4 |         | PK, NOT NULL, FK User.id NO ACTION         |
+| status_id | Статус дружеской связи | int4 |         | NOT NULL, FK StatusFriendship.id NO ACTION |
 
 \
 **ER-диаграмма базы данных**
