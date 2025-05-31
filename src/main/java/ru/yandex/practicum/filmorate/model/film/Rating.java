@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.model.film;
 
 import java.util.Arrays;
 
+@Deprecated
 public enum Rating {
     G("G"),
     PG("PG"),

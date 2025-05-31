@@ -3,18 +3,19 @@ package ru.yandex.practicum.filmorate.storage.film;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.film.Film;
+import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.util.FilmorateUtils;
 import ru.yandex.practicum.filmorate.util.Reflection;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Component
+@Qualifier("InMemoryFilmStorage")
+@Deprecated
 public class InMemoryFilmStorage implements FilmStorage {
     private final Map<Long, Film> films = new HashMap<>();
 
@@ -73,5 +74,28 @@ public class InMemoryFilmStorage implements FilmStorage {
         log.info("Запрошена информация по фильму с {}.", id);
 
         return Optional.ofNullable(films.get(id));
+    }
+
+    @Override
+    public void addLike(Film film, User user) {
+        Set<User> likes = film.getLikes();
+        likes.add(user);
+        film.setLikes(likes);
+
+        log.info("Фильму с id {} поставлен лайк пользователем с id {}.", film.getId(), user.getId());
+    }
+
+    @Override
+    public void deleteLike(Film film, User user) {
+        Set<User> likes = film.getLikes();
+        likes.remove(user);
+        film.setLikes(likes);
+
+        log.info("Фильму с id {} удален лайк пользователя с id {}.", film.getId(), user.getId());
+    }
+
+    @Override
+    public int getNumberLikes(Film film) {
+        return film.getLikes().size();
     }
 }

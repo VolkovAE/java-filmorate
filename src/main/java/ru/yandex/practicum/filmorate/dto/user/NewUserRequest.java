@@ -1,6 +1,5 @@
-package ru.yandex.practicum.filmorate.model.user;
+package ru.yandex.practicum.filmorate.dto.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.*;
@@ -14,22 +13,11 @@ import ru.yandex.practicum.filmorate.validation.FieldDescription;
 import ru.yandex.practicum.filmorate.validation.Marker;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
 
-/**
- * User.
- */
 @Data
 @EqualsAndHashCode(of = {"email"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
-    @Null(message = "При создании пользователя id формируется автоматически.", groups = Marker.OnCreate.class)
-    @NotNull(message = "При обновлении данных о пользователе должен быть указан его id.",
-            groups = {Marker.OnUpdate.class, Marker.OnDelete.class})
-    @FieldDescription(value = "Уникальный идентификатор пользователя", changeByCopy = false)
-    Long id;
-
+public class NewUserRequest {
     @Email(message = "Email is not valid")
     @NotBlank(message = "Электронная почта не может быть пустой.", groups = Marker.OnCreate.class)
     @FieldDescription("Электронная почта")
@@ -50,9 +38,4 @@ public class User {
     @PastOrPresent(message = "Дата рождения не может быть в будущем.")
     @FieldDescription("Дата рождения")
     Instant birthday;
-
-    @JsonIgnore
-    @FieldDescription(value = "id друзей пользователя со статусом связи (значений статуса может быть больше двух)", changeByCopy = false)
-    //Map<Long, StatusFriendship> friends = new HashMap<>();
-    Map<User, StatusFriendship> friends = new HashMap<>();
 }

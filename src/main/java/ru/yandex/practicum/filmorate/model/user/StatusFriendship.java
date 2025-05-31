@@ -28,6 +28,10 @@ public enum StatusFriendship {
         return this == StatusFriendship.NOT_CONFIRM;
     }
 
+    public String getValue() {
+        return value;
+    }
+
     @Override
     public String toString() {
         switch (this) {

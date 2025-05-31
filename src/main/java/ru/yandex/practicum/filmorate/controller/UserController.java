@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
-import ru.yandex.practicum.filmorate.model.user.User;
+import ru.yandex.practicum.filmorate.dto.user.NewUserRequest;
+import ru.yandex.practicum.filmorate.dto.user.UpdateUserRequest;
+import ru.yandex.practicum.filmorate.dto.user.UserDto;
 import ru.yandex.practicum.filmorate.service.UserService;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import ru.yandex.practicum.filmorate.validation.Marker;
 
 import java.util.Collection;
@@ -19,53 +19,50 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserStorage userStorage;
     private final UserService userService;
 
     private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserStorage userStorage, UserService userService) {
-        this.userStorage = userStorage;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping
     @Validated(Marker.OnCreate.class)
-    public User add(@RequestBody @Valid User user) {
+    public UserDto add(@RequestBody @Valid NewUserRequest userRequest) {
         // проверку выполнения необходимых условий осуществил через валидацию полей
         // обработчик выполняется после успешной валидации полей
 
-        return userStorage.add(user);
+        return userService.add(userRequest);
     }
 
     @PutMapping
     @Validated(Marker.OnUpdate.class)
-    public User update(@RequestBody @Valid User newUser) {
+    public UserDto update(@RequestBody @Valid UpdateUserRequest userRequest) {
         // проверку выполнения необходимых условий осуществил через валидацию полей
         // обработчик выполняется после успешной валидации полей
 
-        return userStorage.update(newUser);
+        return userService.update(userRequest);
     }
 
     @DeleteMapping
     @Validated(Marker.OnDelete.class)
-    public User delete(@RequestBody @Valid User delUser) {
+    public UserDto delete(@RequestBody @Valid UpdateUserRequest userRequest) {
         // проверку выполнения необходимых условий осуществил через валидацию полей
         // обработчик выполняется после успешной валидации полей
 
-        return userStorage.delete(delUser);
-    }
-
-    @GetMapping
-    public Collection<User> findAll() {
-        return userStorage.findAll();
+        return userService.delete(userRequest);
     }
 
     @GetMapping("/{id}")
-    public User findById(@PathVariable(name = "id") Long userId) {
-        return userStorage.getById(userId).orElseThrow(
-                () -> new NotFoundException("Пользователь с id = " + userId + " не найден.", log));
+    public UserDto findById(@PathVariable(name = "id") Long userId) {
+        return userService.getById(userId);
+    }
+
+    @GetMapping
+    public Collection<UserDto> findAll() {
+        return userService.findAll();
     }
 
     @PutMapping("/{id}/friends/{friendId}")
@@ -81,13 +78,13 @@ public class UserController {
     }
 
     @GetMapping("/{id}/friends")
-    public Collection<User> findFriends(@PathVariable(name = "id") Long userId) {
+    public Collection<UserDto> findFriends(@PathVariable(name = "id") Long userId) {
         return userService.find(userId);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public Collection<User> findCommonFriends(@PathVariable(name = "id") Long userId1,
-                                              @PathVariable(name = "otherId") Long userId2) {
+    public Collection<UserDto> findCommonFriends(@PathVariable(name = "id") Long userId1,
+                                                 @PathVariable(name = "otherId") Long userId2) {
         return userService.findCommon(userId1, userId2);
     }
 }

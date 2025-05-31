@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
-import ru.yandex.practicum.filmorate.model.film.Film;
+import ru.yandex.practicum.filmorate.dto.film.FilmDto;
+import ru.yandex.practicum.filmorate.dto.film.NewFilmRequest;
+import ru.yandex.practicum.filmorate.dto.film.UpdateFilmRequest;
 import ru.yandex.practicum.filmorate.service.FilmService;
-import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.validation.Marker;
 
 import java.util.Collection;
@@ -20,53 +20,50 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/films")
 public class FilmController {
-    private final FilmStorage filmStorage;
     private final FilmService filmService;
 
     private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(FilmController.class);
 
     @Autowired
-    public FilmController(FilmStorage filmStorage, FilmService filmService) {
-        this.filmStorage = filmStorage;
+    public FilmController(FilmService filmService) {
         this.filmService = filmService;
     }
 
     @PostMapping
     @Validated(Marker.OnCreate.class)
-    public Film add(@RequestBody @Valid Film film) {
+    public FilmDto add(@RequestBody @Valid NewFilmRequest filmRequest) {
         // проверку выполнения необходимых условий осуществил через валидацию полей
         // обработчик выполняется после успешной валидации полей
 
-        return filmStorage.add(film);
+        return filmService.add(filmRequest);
     }
 
     @PutMapping
     @Validated(Marker.OnUpdate.class)
-    public Film update(@RequestBody @Valid Film newFilm) {
+    public FilmDto update(@RequestBody @Valid UpdateFilmRequest filmRequest) {
         // проверку выполнения необходимых условий осуществил через валидацию полей
         // обработчик выполняется после успешной валидации полей
 
-        return filmStorage.update(newFilm);
+        return filmService.update(filmRequest);
+    }
+
+    @GetMapping("/{id}")
+    public FilmDto findById(@PathVariable(name = "id") Long filmId) {
+        return filmService.getById(filmId);
     }
 
     @DeleteMapping
     @Validated(Marker.OnDelete.class)
-    public Film delete(@RequestBody @Valid Film delFilm) {
+    public FilmDto delete(@RequestBody @Valid UpdateFilmRequest filmRequest) {
         // проверку выполнения необходимых условий осуществил через валидацию полей
         // обработчик выполняется после успешной валидации полей
 
-        return filmStorage.delete(delFilm);
+        return filmService.delete(filmRequest);
     }
 
     @GetMapping
-    public Collection<Film> findAll() {
-        return filmStorage.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Film findById(@PathVariable(name = "id") Long filmId) {
-        return filmStorage.getById(filmId).orElseThrow(
-                () -> new NotFoundException("Фильм с id = " + filmId + " не найден.", log));
+    public Collection<FilmDto> findAll() {
+        return filmService.findAll();
     }
 
     @PutMapping("/{id}/like/{userId}")
@@ -82,7 +79,7 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public Collection<Film> getPopular(@RequestParam(name = "count", defaultValue = "10") @Positive long count) {
+    public Collection<FilmDto> getPopular(@RequestParam(name = "count", defaultValue = "10") @Positive long count) {
         return filmService.getPopular(count);
     }
 }
