@@ -4,9 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.dto.mpa.MpaDto;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.mapper.MpaMapper;
 import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 import ru.yandex.practicum.filmorate.storage.rating.MpaDbStorage;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class MpaService {
@@ -28,5 +33,18 @@ public class MpaService {
     public Mpa getById(Long id) {
         return mpaDbStorage.getById(id).
                 orElseThrow(() -> new NotFoundException("Рейтинг с id = " + id + " не найден.", log));
+    }
+
+    public MpaDto getByIdMpaDto(Long id) {
+        Mpa mpa = mpaDbStorage.getById(id).
+                orElseThrow(() -> new NotFoundException("Рейтинг с id = " + id + " не найден.", log));
+
+        return MpaMapper.mapToMpaDto(mpa);
+    }
+
+    public Collection<MpaDto> findAll() {
+        return mpaDbStorage.findAll().stream()
+                .map(MpaMapper::mapToMpaDto)
+                .collect(Collectors.toList());
     }
 }

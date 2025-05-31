@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.dto.genre.GenreDto;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.mapper.GenreMapper;
 import ru.yandex.practicum.filmorate.model.genre.Genre;
 import ru.yandex.practicum.filmorate.storage.genre.GenreDbStorage;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class GenreService {
@@ -23,21 +25,25 @@ public class GenreService {
     }
 
     /**
-     * Получение объект класса Genre (модель) по переданному id из БД.
+     * Получение объекта класса GenreDto по переданному id из БД.
      * Если жанр с переданным id отсутствует в БД, то выбрасываем исключение NotFoundException.
      *
      * @param id - id жанра
      */
-    public Genre getById(Long id) {
-        return genreDbStorage.getById(id).
+    public GenreDto getById(Long id) {
+        Genre genre = genreDbStorage.getById(id).
                 orElseThrow(() -> new NotFoundException("Жанр с id = " + id + " не найден.", log));
+
+        return GenreMapper.mapToGenreDto(genre);
     }
 
     /**
-     * Получение всех объектов класса Genre (модель) из БД.
+     * Получение всех объектов класса GenreDto из БД.
      */
-    public Collection<Genre> findAll() {
-        return genreDbStorage.findAll();
+    public Collection<GenreDto> findAll() {
+        return genreDbStorage.findAll().stream()
+                .map(GenreMapper::mapToGenreDto)
+                .collect(Collectors.toList());
     }
 
     /**

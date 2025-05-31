@@ -9,11 +9,13 @@ import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 import ru.yandex.practicum.filmorate.storage.BaseRepository;
 import ru.yandex.practicum.filmorate.storage.mappers.MpaRowMapper;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
 public class MpaDbStorage extends BaseRepository<Mpa> {
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM Rating WHERE id = ?;";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM Rating;";
 
     private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(MpaDbStorage.class);
 
@@ -26,5 +28,11 @@ public class MpaDbStorage extends BaseRepository<Mpa> {
         log.info("Запрошена информация по рейтингу с id {}.", id);
 
         return findOne(FIND_BY_ID_QUERY, id);
+    }
+
+    public Collection<Mpa> findAll() {
+        log.info("Получен список рейтингов.");
+
+        return findMany(FIND_ALL_QUERY);
     }
 }
