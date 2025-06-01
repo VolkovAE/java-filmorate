@@ -44,8 +44,8 @@ public class UserService {
     }
 
     public UserDto delete(UpdateUserRequest userRequest) {
-        User removeUser = userStorage.getById(userRequest.getId()).
-                orElseThrow(() -> new NotFoundException("Пользователь с id = " + userRequest.getId() + " не найден.", log));
+        User removeUser = userStorage.getById(userRequest.getId())
+                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userRequest.getId() + " не найден.", log));
 
         removeUser = userStorage.delete(removeUser);
 
