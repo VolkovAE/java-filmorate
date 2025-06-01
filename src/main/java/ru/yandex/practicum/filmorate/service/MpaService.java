@@ -31,13 +31,13 @@ public class MpaService {
      * @param id - id рейтинга
      */
     public Mpa getById(Long id) {
-        return mpaDbStorage.getById(id).
-                orElseThrow(() -> new NotFoundException("Рейтинг с id = " + id + " не найден.", log));
+        return mpaDbStorage.getById(id)
+                .orElseThrow(() -> new NotFoundException("Рейтинг с id = " + id + " не найден.", log));
     }
 
     public MpaDto getByIdMpaDto(Long id) {
-        Mpa mpa = mpaDbStorage.getById(id).
-                orElseThrow(() -> new NotFoundException("Рейтинг с id = " + id + " не найден.", log));
+        Mpa mpa = mpaDbStorage.getById(id)
+                .orElseThrow(() -> new NotFoundException("Рейтинг с id = " + id + " не найден.", log));
 
         return MpaMapper.mapToMpaDto(mpa);
     }
