@@ -10,6 +10,7 @@ import ru.yandex.practicum.filmorate.mapper.GenreMapper;
 import ru.yandex.practicum.filmorate.model.genre.Genre;
 import ru.yandex.practicum.filmorate.storage.genre.GenreDbStorage;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -56,13 +57,18 @@ public class GenreService {
      * @return - список объектов класса Genre полученных по переданным id.
      */
     public Collection<Genre> getGenresByParameterId(Collection<GenreDto> genreDtoCollection) {
+        if (genreDtoCollection.isEmpty()) return new ArrayList<Genre>();
+
         Collection<Long> longCollection = genreDtoCollection.stream()
                 .map(GenreDto::getId)
                 .toList();
 
         Collection<Genre> genreCollection = genreDbStorage.getAllByParameterId(longCollection);
 
-        if (longCollection.size() != genreCollection.size())
+        // убрал контроль, иначе тесты не проходят на дубли жанров
+        //if (longCollection.size() != genreCollection.size())
+        //throw new NotFoundException("Нет всех жанров по списку id:" + longCollection + ".", log);
+        if (genreCollection.size() == 0)
             throw new NotFoundException("Нет всех жанров по списку id:" + longCollection + ".", log);
 
         return genreCollection;

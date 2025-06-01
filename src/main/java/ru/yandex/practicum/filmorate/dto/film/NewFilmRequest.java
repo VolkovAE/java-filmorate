@@ -22,8 +22,8 @@ import ru.yandex.practicum.filmorate.validation.ReleaseDate;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -51,9 +51,10 @@ public class NewFilmRequest {
     Duration duration;
 
     @JsonProperty(value = "genres")
-    @NotNull(message = "Нужно указать жанры, к которым принадлежит фильм.", groups = Marker.OnCreate.class)
+    //@NotNull(message = "Нужно указать жанры, к которым принадлежит фильм.", groups = Marker.OnCreate.class)
     @FieldDescription(value = "Жанры, к которым принадлежит фильм (может быть несколько)")
-    Set<GenreDto> genre = new HashSet<>();
+    //Set<GenreDto> genre = new HashSet<>();
+    List<GenreDto> genre = new ArrayList<>();
 
     @JsonProperty(value = "mpa")
     @NotNull(message = "Нужно указать рейтинг фильма.", groups = Marker.OnCreate.class)

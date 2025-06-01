@@ -25,7 +25,9 @@ import ru.yandex.practicum.filmorate.validation.ReleaseDate;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -71,7 +73,8 @@ public class Film implements Comparable<Film> {
     @JsonIgnore
     @FieldDescription(value = "Жанры, к которым принадлежит фильм (может быть несколько)", changeByCopy = false)
     //Set<String> genre = new HashSet<>();
-    Set<Genre> genre = new HashSet<>();
+    //Set<Genre> genre = new HashSet<>();
+    List<Genre> genre = new ArrayList<>();
 
     @JsonIgnore
     @FieldDescription("Рейтинг фильма согласно Ассоциации кинокомпаний")

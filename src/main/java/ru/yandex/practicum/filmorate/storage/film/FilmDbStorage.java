@@ -91,7 +91,10 @@ public class FilmDbStorage extends BaseRepository<Film> implements FilmStorage {
 
         log.info("Добавлен новый фильм {}.", film);
 
-        return film;
+        return getById(film.getId())
+                .orElseThrow(() -> new NotFoundException("Фильм с id = " + film.getId() + " не найден.", log));
+
+        //return film;
     }
 
     private static BatchPreparedStatementSetter getBatchPreparedStatementSetter(Film film) {
@@ -124,7 +127,8 @@ public class FilmDbStorage extends BaseRepository<Film> implements FilmStorage {
             Film film = optionalFilm.get();
 
             Collection<Genre> genreCollection = genreDbStorage.getAllByFilm(film);
-            if (!genreCollection.isEmpty()) film.setGenre(new HashSet<>(genreCollection));
+            //if (!genreCollection.isEmpty()) film.setGenre(new HashSet<>(genreCollection));
+            if (!genreCollection.isEmpty()) film.setGenre(new ArrayList<>(genreCollection));
 
             // получаем пользователей поставивших фильму лайк и размещаем его в объекте film
             film.setLikes(new HashSet<>(userStorage.getUsersLikesByFilm(film)));
@@ -183,7 +187,8 @@ public class FilmDbStorage extends BaseRepository<Film> implements FilmStorage {
         log.info("Получен список фильмов.");
 
         return findMany(FIND_ALL_QUERY).stream()
-                .peek(film -> film.setGenre(new HashSet<>(genreDbStorage.getAllByFilm(film))))  //жанры фильма
+//                .peek(film -> film.setGenre(new HashSet<>(genreDbStorage.getAllByFilm(film))))  //жанры фильма
+                .peek(film -> film.setGenre(new ArrayList<>(genreDbStorage.getAllByFilm(film))))  //жанры фильма
                 .peek(film -> film.setLikes(new HashSet<>(userStorage.getUsersLikesByFilm(film))))  //пользователи поставившие фильму лайк
                 .collect(Collectors.toList());
     }

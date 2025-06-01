@@ -313,19 +313,33 @@ public class UserDbStorage extends BaseRepository<User> implements UserStorage {
      */
     @Override
     public void deleteLinkFriends(User user, User friend) {
-        //Удаляем пользователей из друзей друг у друга:
-        // пользователю user удаляю друга friend
-        // пользователю friend удаляю друга user
-        List<Long> longList = new ArrayList<>();
-        longList.add(user.getId());
-        longList.add(friend.getId());
+        // при тестах выяснилось, что удаление связи только у одного из пользователей
+//        //Удаляем пользователей из друзей друг у друга:
+//        // пользователю user удаляю друга friend
+//        // пользователю friend удаляю друга user
+//        List<Long> longList = new ArrayList<>();
+//        longList.add(user.getId());
+//        longList.add(friend.getId());
+//
+//        SqlParameterSource parameters = new MapSqlParameterSource("user_ids", longList)
+//                .addValue("friend_ids", longList);
+//
+//        deleteParameterSource(DELETE_FRIEND_QUERY, parameters);
 
-        SqlParameterSource parameters = new MapSqlParameterSource("user_ids", longList)
-                .addValue("friend_ids", longList);
+        // односторонняя связь (адаптировал существующий код, чтобы изменить только здесь)
+        // пользователю user удаляю друга friend
+        List<Long> longListUsers = new ArrayList<>();
+        longListUsers.add(user.getId());
+
+        List<Long> longListFriends = new ArrayList<>();
+        longListFriends.add(friend.getId());
+
+        SqlParameterSource parameters = new MapSqlParameterSource("user_ids", longListUsers)
+                .addValue("friend_ids", longListFriends);
 
         deleteParameterSource(DELETE_FRIEND_QUERY, parameters);
 
-        log.info("Пользователи с id {} и {} исключены из друзей друг у друга.", user.getId(), friend.getId());
+        log.info("Пользователь с id {} и исключил из друзей друга {}.", user.getId(), friend.getId());
     }
 
     @Override

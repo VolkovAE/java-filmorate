@@ -12,18 +12,20 @@ import ru.yandex.practicum.filmorate.model.genre.Genre;
 import ru.yandex.practicum.filmorate.storage.BaseRepository;
 import ru.yandex.practicum.filmorate.storage.mappers.GenreRowMapper;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
 @Repository
 public class GenreDbStorage extends BaseRepository<Genre> {
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM Genre WHERE id = ?;";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM Genre;";
-    private static final String FIND_ALL_BY_ID_QUERY = "SELECT * FROM Genre WHERE id IN (:ids);";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM Genre ORDER BY id;";
+    private static final String FIND_ALL_BY_ID_QUERY = "SELECT * FROM Genre WHERE id IN (:ids) ORDER BY id;";
     private static final String FIND_ALL_GENRES_BY_FILM_QUERY = "SELECT g.id, g.name, g.description " +
             " FROM GENRE AS g" +
             " INNER JOIN FILM_GENRE AS fg ON fg.genre_id = g.id" +
-            " AND fg.film_id = ?;";
+            " AND fg.film_id = ?" +
+            " ORDER BY g.id;";
 
     private static final Logger log = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(GenreDbStorage.class);
 
@@ -46,6 +48,8 @@ public class GenreDbStorage extends BaseRepository<Genre> {
 
     public Collection<Genre> getAllByParameterId(Collection<Long> longCollection) {
         log.info("Получен список жанров с заданными id.");
+
+        if (longCollection.isEmpty()) return new ArrayList<Genre>();
 
         SqlParameterSource parameters = new MapSqlParameterSource("ids", longCollection);
 

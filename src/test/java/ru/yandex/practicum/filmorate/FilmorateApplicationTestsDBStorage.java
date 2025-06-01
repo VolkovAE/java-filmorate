@@ -197,16 +197,15 @@ public class FilmorateApplicationTestsDBStorage {
         //Удалим связь.
         userStorage.deleteLinkFriends(user, friend);
 
-        //Проверим, что пользователь 2 НЕТ в друзьях у пользователя 1.
+        //Проверим, что user НЕТ в друзьях friend.
         friends = userStorage.getFriendsByUser(user);
 
-        assertFalse(friends.containsKey(friend), "Пользователь 2 не удален из друзей пользователя 1");
+        assertFalse(friends.containsKey(friend), "Пользователь friend не удален из друзей пользователя user");
 
-        //Проверим, что пользователь 1 в друзьях у пользователя 2 в статусе подтвержденной дружбы.
+        //Проверим, что пользователь user в друзьях у пользователя friend в статусе подтвержденной дружбы.
         friends = userStorage.getFriendsByUser(friend);
 
-        assertFalse(friends.containsKey(user), "Пользователь 1 не удален из друзей пользователя 2");
-
+        assertTrue(friends.containsKey(user), "Пользователь user удален из друзей пользователя friend");
     }
 
     @Test
@@ -318,7 +317,8 @@ public class FilmorateApplicationTestsDBStorage {
         Genre genre = new Genre();
         genre.setId(1L);
 
-        Set<Genre> genreSet = new HashSet<>();
+        //Set<Genre> genreSet = new HashSet<>();
+        List<Genre> genreSet = new ArrayList<>();
         genreSet.add(genre);
 
         Film film = new Film();
@@ -356,7 +356,8 @@ public class FilmorateApplicationTestsDBStorage {
         Genre genre = new Genre();
         genre.setId(1L);
 
-        Set<Genre> genreSet = new HashSet<>();
+        //Set<Genre> genreSet = new HashSet<>();
+        List<Genre> genreSet = new ArrayList<>();
         genreSet.add(genre);
 
         Film film = new Film();

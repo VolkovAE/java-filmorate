@@ -15,9 +15,9 @@ import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 import ru.yandex.practicum.filmorate.service.GenreService;
 import ru.yandex.practicum.filmorate.service.MpaService;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -47,7 +47,8 @@ public final class FilmMapper {
         film.setDescription(request.getDescription());
         film.setReleaseDate(request.getReleaseDate());
         film.setDuration(request.getDuration());
-        film.setGenre(new HashSet<>(genreCollection));
+        //film.setGenre(new HashSet<>(genreCollection));
+        film.setGenre(new ArrayList<>(genreCollection));
         film.setRating(mpa);
 
         return film;
@@ -62,7 +63,8 @@ public final class FilmMapper {
         film.setDuration(request.getDuration());
 
         if (!request.getGenre().isEmpty())
-            film.setGenre(new HashSet<>(genreService.getGenresByParameterId(request.getGenre())));
+            //film.setGenre(new HashSet<>(genreService.getGenresByParameterId(request.getGenre())));
+            film.setGenre(new ArrayList<>(genreService.getGenresByParameterId(request.getGenre())));
 
         if (request.getRating() != null) film.setRating(mpaService.getById(request.getRating().getId()));
 
@@ -70,9 +72,12 @@ public final class FilmMapper {
     }
 
     public static FilmDto mapToFilmDto(Film film) {
-        Set<GenreDto> genreDtoSet = film.getGenre().stream()
+//        Set<GenreDto> genreDtoSet = film.getGenre().stream()
+//                .map(GenreMapper::mapToGenreDto)
+//                .collect(Collectors.toSet());
+        List<GenreDto> genreDtoList = film.getGenre().stream()
                 .map(GenreMapper::mapToGenreDto)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         FilmDto dto = new FilmDto();
         dto.setId(film.getId());
@@ -80,7 +85,8 @@ public final class FilmMapper {
         dto.setDescription(film.getDescription());
         dto.setReleaseDate(film.getReleaseDate());
         dto.setDuration(film.getDuration());
-        dto.setGenre(genreDtoSet);
+        //dto.setGenre(genreDtoSet);
+        dto.setGenre(genreDtoList);
         dto.setRating(MpaMapper.mapToMpaDto(film.getRating()));
 
         return dto;

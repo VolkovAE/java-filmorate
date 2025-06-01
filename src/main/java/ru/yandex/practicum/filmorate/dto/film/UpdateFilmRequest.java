@@ -22,8 +22,8 @@ import ru.yandex.practicum.filmorate.validation.ReleaseDate;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(of = {"id"})
@@ -55,7 +55,8 @@ public class UpdateFilmRequest {
 
     @JsonProperty(value = "genres")
     @FieldDescription(value = "Жанры, к которым принадлежит фильм (может быть несколько)")
-    Set<GenreDto> genre = new HashSet<>();
+    //Set<GenreDto> genre = new HashSet<>();
+    List<GenreDto> genre = new ArrayList<>();
 
     @JsonProperty(value = "mpa")
     @FieldDescription("Рейтинг фильма согласно Ассоциации кинокомпаний")
