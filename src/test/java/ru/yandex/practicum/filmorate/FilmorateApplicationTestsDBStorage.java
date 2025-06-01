@@ -109,6 +109,7 @@ public class FilmorateApplicationTestsDBStorage {
 
     @Test
     public void testFriendship() {
+        /* тестирование двусторонней связи
         User user = userStorage.getById(1L)
                 .orElseThrow(() -> new NotFoundException("Не найден пользователь для тестирования дружбы по id = 1."));
 
@@ -147,10 +148,71 @@ public class FilmorateApplicationTestsDBStorage {
         friends = userStorage.getFriendsByUser(friend);
 
         assertFalse(friends.containsKey(user), "Пользователь 1 не удален из друзей пользователя 2");
+        */
+
+        // тестирование односторонней связи
+        User user = userStorage.getById(1L)
+                .orElseThrow(() -> new NotFoundException("Не найден пользователь для тестирования дружбы по id = 1."));
+
+        User friend = userStorage.getById(2L)
+                .orElseThrow(() -> new NotFoundException("Не найден пользователь для тестирования дружбы по id = 2."));
+
+        userStorage.linkFriends(user, friend); //user <- friend
+
+        //Проверим, что пользователь friend не добавлен в друзья у пользователя user.
+        Map<User, StatusFriendship> friends = userStorage.getFriendsByUser(user);
+
+        assertFalse(friends.containsKey(friend), "Пользователь friend добавлен в друзья пользователю user.");
+
+        //Проверим, что пользователь user в друзьях у пользователя friend в статусе НЕ подтвержденной дружбы.
+        friends = userStorage.getFriendsByUser(friend);
+
+        assertTrue(friends.containsKey(user), "Пользователь user не добавлен в друзья пользователю friend.");
+
+        if (friends.containsKey(friend)) {
+            assertEquals(StatusFriendship.NOT_CONFIRM, friends.get(friend), "friend<-user не верная связь.");
+        }
+
+        //Проверим запрос user в друзья пользователю friend.
+        userStorage.linkFriends(friend, user); //friend <- user
+
+        //Проверим, что пользователь friend в друзьях у пользователя user в статусе подтвержденной дружбы.
+        friends = userStorage.getFriendsByUser(user);
+
+        assertTrue(friends.containsKey(friend), "Пользователь friend не добавлен в друзья пользователю user.");
+
+        if (friends.containsKey(friend)) {
+            assertEquals(StatusFriendship.CONFIRM, friends.get(friend), "friend<-user не верная связь.");
+        }
+
+        //Проверим, что пользователь user в друзьях у пользователя friend в статусе подтвержденной дружбы.
+        friends = userStorage.getFriendsByUser(friend);
+
+        assertTrue(friends.containsKey(user), "Пользователь user не добавлен в друзья пользователю friend.");
+
+        if (friends.containsKey(friend)) {
+            assertEquals(StatusFriendship.CONFIRM, friends.get(friend), "friend<-user не верная связь.");
+        }
+
+        //Удалим связь.
+        userStorage.deleteLinkFriends(user, friend);
+
+        //Проверим, что пользователь 2 НЕТ в друзьях у пользователя 1.
+        friends = userStorage.getFriendsByUser(user);
+
+        assertFalse(friends.containsKey(friend), "Пользователь 2 не удален из друзей пользователя 1");
+
+        //Проверим, что пользователь 1 в друзьях у пользователя 2 в статусе подтвержденной дружбы.
+        friends = userStorage.getFriendsByUser(friend);
+
+        assertFalse(friends.containsKey(user), "Пользователь 1 не удален из друзей пользователя 2");
+
     }
 
     @Test
     public void testCommonFriends() {
+        // тестирование двусторонней дружбы
+        /*
         User user1 = userStorage.getById(1L)
                 .orElseThrow(() -> new NotFoundException("Не найден пользователь для тестирования дружбы по id = 1."));
 
@@ -158,7 +220,7 @@ public class FilmorateApplicationTestsDBStorage {
                 .orElseThrow(() -> new NotFoundException("Не найден пользователь для тестирования дружбы по id = 2."));
 
         User user3 = userStorage.getById(3L)
-                .orElseThrow(() -> new NotFoundException("Не найден пользователь для тестирования дружбы по id = 2."));
+                .orElseThrow(() -> new NotFoundException("Не найден пользователь для тестирования дружбы по id = 3."));
 
         userStorage.linkFriends(user1, user3);
 
@@ -170,6 +232,33 @@ public class FilmorateApplicationTestsDBStorage {
         assertEquals(1, userCollection.size(), "Друзей больше одного.");
 
         assertTrue(userCollection.contains(user3), "Общий друг не пользователь 3.");
+         */
+
+        // тестирование односторонней дружбы
+        User user1 = userStorage.getById(1L)
+                .orElseThrow(() -> new NotFoundException("Не найден пользователь для тестирования дружбы по id = 1."));
+
+        User user2 = userStorage.getById(2L)
+                .orElseThrow(() -> new NotFoundException("Не найден пользователь для тестирования дружбы по id = 2."));
+
+        User user3 = userStorage.getById(3L)
+                .orElseThrow(() -> new NotFoundException("Не найден пользователь для тестирования дружбы по id = 3."));
+
+        User user4 = userStorage.getById(4L)
+                .orElseThrow(() -> new NotFoundException("Не найден пользователь для тестирования дружбы по id = 4."));
+
+        userStorage.linkFriends(user1, user3);
+
+        userStorage.linkFriends(user2, user3);
+
+        userStorage.linkFriends(user2, user4);
+
+        Collection<User> userCollection = userStorage.findCommon(user3, user4);
+
+        //Проверим, что друг 1 и это user2.
+        assertEquals(1, userCollection.size(), "Друзей больше одного.");
+
+        assertTrue(userCollection.contains(user2), "Общий друг не пользователь 2.");
     }
 
     @Test

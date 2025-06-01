@@ -244,6 +244,8 @@ public class UserDbStorage extends BaseRepository<User> implements UserStorage {
     @Override
     @Transactional
     public void linkFriends(User user, User friend) {
+        //Реализация двухсторонней дружбы.
+        /*
         //Добавляем пользователей в друзья друг другу.
         // Проверка, что являются друзьями не нужна, так как использую Map.
 
@@ -269,6 +271,36 @@ public class UserDbStorage extends BaseRepository<User> implements UserStorage {
             updateFriend(friend, user, StatusFriendship.CONFIRM);
         }
         friend.setFriends(friends);
+
+        log.info("Пользователем с id {} сделан запрос в друзья к пользователю с id {}.", friend.getId(), user.getId());
+         */
+
+        //Реализация односторонней дружбы.
+        // Описание алгоритма:
+        //  - пользователь friend запросил дружбу у пользователя user
+        //  - определяем тип дружеской связи:
+        //      - если у пользователя user есть в друзьях пользователь friend то связь подтверждена
+        //      - если у пользователя user нет в друзьях пользователя friend то связь НЕ подтверждена
+        //  - если связь подтверждена, то:
+        //      - добавляем пользователю friend друга user с подтвержденной связью
+        //      - обновляем пользователю user дружескую связь с friend на подтвержденную
+        //  - если связь НЕ подтверждена:
+        //      - добавляем пользователю friend друга user с НЕ подтвержденной связью
+
+        // определяем тип дружеской связи
+        StatusFriendship statusFriendship = StatusFriendship.NOT_CONFIRM;
+        Map<User, StatusFriendship> friendshipMap = getFriendsByUser(user);
+        if (friendshipMap.containsKey(friend)) statusFriendship = StatusFriendship.CONFIRM;
+
+        // добавляем пользователю friend друга user с подтвержденной / НЕ подтвержденной связью
+        insertFriend(friend, user, statusFriendship);
+
+        // обновляем пользователю user дружескую связь с friend на подтвержденную
+        if (statusFriendship == StatusFriendship.CONFIRM) updateFriend(user, friend, statusFriendship);
+
+        // обновляем данные о друзьях в объектах класса User
+        user.setFriends(getFriendsByUser(user));
+        friend.setFriends(getFriendsByUser(friend));
 
         log.info("Пользователем с id {} сделан запрос в друзья к пользователю с id {}.", friend.getId(), user.getId());
     }
@@ -315,6 +347,12 @@ public class UserDbStorage extends BaseRepository<User> implements UserStorage {
                 .toList();
     }
 
+    /**
+     * Получение для пользователя user таблицы друзей с типом установленной дружеской связи.
+     *
+     * @param user - пользователь, для которого получаем друзей
+     * @return - таблица. Где ключ - друг пользователя user, значение - тип дружеской связи
+     */
     @Override
     public Map<User, StatusFriendship> getFriendsByUser(User user) {
 
