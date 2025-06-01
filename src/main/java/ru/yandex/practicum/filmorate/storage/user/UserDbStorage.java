@@ -108,8 +108,8 @@ public class UserDbStorage extends BaseRepository<User> implements UserStorage {
 
     @Override
     public User update(User newUser) {
-        User oldUser = getById(newUser.getId()).
-                orElseThrow(() -> new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден.", log));
+        User oldUser = getById(newUser.getId())
+                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден.", log));
 
         if (!StringUtils.isBlank(newUser.getEmail())) {
             if (!newUser.getEmail().equals(oldUser.getEmail())) {
