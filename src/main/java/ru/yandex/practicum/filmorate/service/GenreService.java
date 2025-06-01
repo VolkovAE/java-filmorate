@@ -32,8 +32,8 @@ public class GenreService {
      * @param id - id жанра
      */
     public GenreDto getById(Long id) {
-        Genre genre = genreDbStorage.getById(id).
-                orElseThrow(() -> new NotFoundException("Жанр с id = " + id + " не найден.", log));
+        Genre genre = genreDbStorage.getById(id)
+                .orElseThrow(() -> new NotFoundException("Жанр с id = " + id + " не найден.", log));
 
         return GenreMapper.mapToGenreDto(genre);
     }
