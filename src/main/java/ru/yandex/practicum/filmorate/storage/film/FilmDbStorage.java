@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -128,7 +129,8 @@ public class FilmDbStorage extends BaseRepository<Film> implements FilmStorage {
 
             Collection<Genre> genreCollection = genreDbStorage.getAllByFilm(film);
             //if (!genreCollection.isEmpty()) film.setGenre(new HashSet<>(genreCollection));
-            if (!genreCollection.isEmpty()) film.setGenre(new ArrayList<>(genreCollection));
+            //if (!genreCollection.isEmpty()) film.setGenre(new ArrayList<>(genreCollection));
+            if (CollectionUtils.isNotEmpty(genreCollection)) film.setGenre(new ArrayList<>(genreCollection));
 
             // получаем пользователей поставивших фильму лайк и размещаем его в объекте film
             film.setLikes(new HashSet<>(userStorage.getUsersLikesByFilm(film)));
