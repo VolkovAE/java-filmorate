@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.model.film;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -15,6 +15,9 @@ import ru.yandex.practicum.filmorate.converters.DurationToIntegerConverter;
 import ru.yandex.practicum.filmorate.converters.InstantToStringConverter;
 import ru.yandex.practicum.filmorate.converters.IntegerToDurationConverter;
 import ru.yandex.practicum.filmorate.converters.StringToInstantConverter;
+import ru.yandex.practicum.filmorate.model.genre.Genre;
+import ru.yandex.practicum.filmorate.model.mpa.Mpa;
+import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.validation.DurationPositive;
 import ru.yandex.practicum.filmorate.validation.FieldDescription;
 import ru.yandex.practicum.filmorate.validation.Marker;
@@ -22,7 +25,9 @@ import ru.yandex.practicum.filmorate.validation.ReleaseDate;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -62,7 +67,19 @@ public class Film implements Comparable<Film> {
 
     @JsonIgnore
     @FieldDescription(value = "id пользователей, которые поставили фильму лайк", changeByCopy = false)
-    Set<Long> likes = new HashSet<>();
+    //Set<Long> likes = new HashSet<>();
+    Set<User> likes = new HashSet<>();
+
+    @JsonIgnore
+    @FieldDescription(value = "Жанры, к которым принадлежит фильм (может быть несколько)", changeByCopy = false)
+    //Set<String> genre = new HashSet<>();
+    //Set<Genre> genre = new HashSet<>();
+    List<Genre> genre = new ArrayList<>();
+
+    @JsonIgnore
+    @FieldDescription("Рейтинг фильма согласно Ассоциации кинокомпаний")
+    //Rating rating;
+    Mpa rating;
 
     @Override
     public int compareTo(Film o) {

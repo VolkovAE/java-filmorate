@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
@@ -20,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 //@SpringBootTest   //если оставить так, то встроенный веб-сервер не запустится и не смогу проверить http-запросы.
 //Запускаю встроенный веб-сервер и слушаю порт указанный в настройках см. webEnvironment
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+//Конфигурирование тестовой базы вместо основной.
+@AutoConfigureTestDatabase
 class FilmorateApplicationTests {
     @Test
     void contextLoads() {
@@ -32,6 +35,18 @@ class FilmorateApplicationTests {
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
+        // подготавливаем данные о рейтинге
+        JsonObject jsonMpa = new JsonObject();
+        jsonMpa.addProperty("id", 3);
+
+        // подготавливаем данные о жанрах фильма
+        JsonObject jsonGenre = new JsonObject();
+        jsonGenre.addProperty("id", 5);
+
+        JsonArray jsonArrayGenres = new JsonArray();
+        jsonArrayGenres.add(jsonGenre);
+
+        // подготавливаем данные о фильме
         JsonObject jsonFilm = new JsonObject();
         jsonFilm.addProperty("name", "Интерстеллар");
         jsonFilm.addProperty("description", "Когда засуха, пыльные бури и вымирание растений приводят " +
@@ -39,6 +54,8 @@ class FilmorateApplicationTests {
                 "сквозь червоточину, чтобы себя спасти.");
         jsonFilm.addProperty("releaseDate", "2014-11-06");
         jsonFilm.addProperty("duration", 10140);
+        jsonFilm.add("mpa", jsonMpa);
+        jsonFilm.add("genres", jsonArrayGenres);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -61,12 +78,26 @@ class FilmorateApplicationTests {
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
+        // подготавливаем данные о рейтинге
+        JsonObject jsonMpa = new JsonObject();
+        jsonMpa.addProperty("id", 3);
+
+        // подготавливаем данные о жанрах фильма
+        JsonObject jsonGenre = new JsonObject();
+        jsonGenre.addProperty("id", 5);
+
+        JsonArray jsonArrayGenres = new JsonArray();
+        jsonArrayGenres.add(jsonGenre);
+
+        // подготавливаем данные о фильме
         JsonObject jsonFilm = new JsonObject();
         jsonFilm.addProperty("name", "Зеленая миля");
         jsonFilm.addProperty("description", "Пол Эджкомб — начальник блока смертников в тюрьме «Холодная гора», " +
                 "каждый из узников которого однажды проходит «зеленую милю» по пути к месту казни.");
         jsonFilm.addProperty("releaseDate", "1999-04-18");
         jsonFilm.addProperty("duration", 11340);
+        jsonFilm.add("mpa", jsonMpa);
+        jsonFilm.add("genres", jsonArrayGenres);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -129,6 +160,18 @@ class FilmorateApplicationTests {
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
+        // подготавливаем данные о рейтинге
+        JsonObject jsonMpa = new JsonObject();
+        jsonMpa.addProperty("id", 3);
+
+        // подготавливаем данные о жанрах фильма
+        JsonObject jsonGenre = new JsonObject();
+        jsonGenre.addProperty("id", 5);
+
+        JsonArray jsonArrayGenres = new JsonArray();
+        jsonArrayGenres.add(jsonGenre);
+
+        // подготавливаем данные о фильме
         JsonObject jsonFilm = new JsonObject();
         //jsonFilm.addProperty("name", "Операция «Ы» и другие приключения Шурика");
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
@@ -136,6 +179,8 @@ class FilmorateApplicationTests {
                 "предотвращает «ограбление века».");
         jsonFilm.addProperty("releaseDate", "1965-07-23");
         jsonFilm.addProperty("duration", 5700);
+        jsonFilm.add("mpa", jsonMpa);
+        jsonFilm.add("genres", jsonArrayGenres);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -180,6 +225,18 @@ class FilmorateApplicationTests {
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
+        // подготавливаем данные о рейтинге
+        JsonObject jsonMpa = new JsonObject();
+        jsonMpa.addProperty("id", 3);
+
+        // подготавливаем данные о жанрах фильма
+        JsonObject jsonGenre = new JsonObject();
+        jsonGenre.addProperty("id", 5);
+
+        JsonArray jsonArrayGenres = new JsonArray();
+        jsonArrayGenres.add(jsonGenre);
+
+        // подготавливаем данные о фильме
         JsonObject jsonFilm = new JsonObject();
         //jsonFilm.addProperty("name", "Операция «Ы» и другие приключения Шурика");
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
@@ -187,6 +244,8 @@ class FilmorateApplicationTests {
                 "предотвращает «ограбление века», на которое идёт троица бандитов — Балбес, Трус и Бывалый.");
         jsonFilm.addProperty("releaseDate", "1965-07-23");
         jsonFilm.addProperty("duration", 5700);
+        jsonFilm.add("mpa", jsonMpa);
+        jsonFilm.add("genres", jsonArrayGenres);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -221,7 +280,6 @@ class FilmorateApplicationTests {
 
         assertEquals("Максимальная длина описания — 200 символов.", jsonObject.get("message").getAsString(),
                 "Ошибка валидация по описанию фильма.");
-
     }
 
     @Test
@@ -232,6 +290,18 @@ class FilmorateApplicationTests {
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
+        // подготавливаем данные о рейтинге
+        JsonObject jsonMpa = new JsonObject();
+        jsonMpa.addProperty("id", 3);
+
+        // подготавливаем данные о жанрах фильма
+        JsonObject jsonGenre = new JsonObject();
+        jsonGenre.addProperty("id", 5);
+
+        JsonArray jsonArrayGenres = new JsonArray();
+        jsonArrayGenres.add(jsonGenre);
+
+        // подготавливаем данные о фильме
         JsonObject jsonFilm = new JsonObject();
         jsonFilm.addProperty("name", "Операция «Ы» и другие приключения Шурика");
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
@@ -239,6 +309,8 @@ class FilmorateApplicationTests {
                 "предотвращает «ограбление века».");
         jsonFilm.addProperty("releaseDate", "1965-07-23");
         jsonFilm.addProperty("duration", 5700);
+        jsonFilm.add("mpa", jsonMpa);
+        jsonFilm.add("genres", jsonArrayGenres);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -302,6 +374,18 @@ class FilmorateApplicationTests {
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
+        // подготавливаем данные о рейтинге
+        JsonObject jsonMpa = new JsonObject();
+        jsonMpa.addProperty("id", 3);
+
+        // подготавливаем данные о жанрах фильма
+        JsonObject jsonGenre = new JsonObject();
+        jsonGenre.addProperty("id", 5);
+
+        JsonArray jsonArrayGenres = new JsonArray();
+        jsonArrayGenres.add(jsonGenre);
+
+        // подготавливаем данные о фильме
         JsonObject jsonFilm = new JsonObject();
         jsonFilm.addProperty("name", "Операция «Ы» и другие приключения Шурика");
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
@@ -309,6 +393,8 @@ class FilmorateApplicationTests {
                 "предотвращает «ограбление века».");
         jsonFilm.addProperty("releaseDate", "1895-12-27");
         jsonFilm.addProperty("duration", 5700);
+        jsonFilm.add("mpa", jsonMpa);
+        jsonFilm.add("genres", jsonArrayGenres);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -353,6 +439,18 @@ class FilmorateApplicationTests {
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
+        // подготавливаем данные о рейтинге
+        JsonObject jsonMpa = new JsonObject();
+        jsonMpa.addProperty("id", 3);
+
+        // подготавливаем данные о жанрах фильма
+        JsonObject jsonGenre = new JsonObject();
+        jsonGenre.addProperty("id", 5);
+
+        JsonArray jsonArrayGenres = new JsonArray();
+        jsonArrayGenres.add(jsonGenre);
+
+        // подготавливаем данные о фильме
         JsonObject jsonFilm = new JsonObject();
         jsonFilm.addProperty("name", "Операция «Ы» и другие приключения Шурика");
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
@@ -360,6 +458,8 @@ class FilmorateApplicationTests {
                 "предотвращает «ограбление века»!");
         jsonFilm.addProperty("releaseDate", "1895-12-28");
         jsonFilm.addProperty("duration", 5700);
+        jsonFilm.add("mpa", jsonMpa);
+        jsonFilm.add("genres", jsonArrayGenres);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -382,12 +482,26 @@ class FilmorateApplicationTests {
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
+        // подготавливаем данные о рейтинге
+        JsonObject jsonMpa = new JsonObject();
+        jsonMpa.addProperty("id", 3);
+
+        // подготавливаем данные о жанрах фильма
+        JsonObject jsonGenre = new JsonObject();
+        jsonGenre.addProperty("id", 5);
+
+        JsonArray jsonArrayGenres = new JsonArray();
+        jsonArrayGenres.add(jsonGenre);
+
+        // подготавливаем данные о фильме
         JsonObject jsonFilm = new JsonObject();
         jsonFilm.addProperty("name", "Операция «Ы» и другие приключения Шурика");
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
                 "длительность равна null");
         jsonFilm.addProperty("releaseDate", "1895-12-28");
         //jsonFilm.addProperty("duration", 5700);
+        jsonFilm.add("mpa", jsonMpa);
+        jsonFilm.add("genres", jsonArrayGenres);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -432,12 +546,26 @@ class FilmorateApplicationTests {
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
+        // подготавливаем данные о рейтинге
+        JsonObject jsonMpa = new JsonObject();
+        jsonMpa.addProperty("id", 3);
+
+        // подготавливаем данные о жанрах фильма
+        JsonObject jsonGenre = new JsonObject();
+        jsonGenre.addProperty("id", 5);
+
+        JsonArray jsonArrayGenres = new JsonArray();
+        jsonArrayGenres.add(jsonGenre);
+
+        // подготавливаем данные о фильме
         JsonObject jsonFilm = new JsonObject();
         jsonFilm.addProperty("name", "Операция «Ы» и другие приключения Шурика");
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
                 "длительность равна 0");
         jsonFilm.addProperty("releaseDate", "1895-12-28");
         jsonFilm.addProperty("duration", 0);//5700);
+        jsonFilm.add("mpa", jsonMpa);
+        jsonFilm.add("genres", jsonArrayGenres);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")
@@ -482,12 +610,26 @@ class FilmorateApplicationTests {
         URI urlFilms = URI.create(String.format("http://localhost:%s/films", port));
 
         //Добавляем фильм.
+        // подготавливаем данные о рейтинге
+        JsonObject jsonMpa = new JsonObject();
+        jsonMpa.addProperty("id", 3);
+
+        // подготавливаем данные о жанрах фильма
+        JsonObject jsonGenre = new JsonObject();
+        jsonGenre.addProperty("id", 5);
+
+        JsonArray jsonArrayGenres = new JsonArray();
+        jsonArrayGenres.add(jsonGenre);
+
+        // подготавливаем данные о фильме
         JsonObject jsonFilm = new JsonObject();
         jsonFilm.addProperty("name", "Операция «Ы» и другие приключения Шурика");
         jsonFilm.addProperty("description", "Студент Шурик попадает в самые невероятные ситуации: " +
                 "длительность равна -1");
         jsonFilm.addProperty("releaseDate", "1895-12-28");
         jsonFilm.addProperty("duration", -1);//5700);
+        jsonFilm.add("mpa", jsonMpa);
+        jsonFilm.add("genres", jsonArrayGenres);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json;charset=utf-8")

@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -14,8 +14,8 @@ import ru.yandex.practicum.filmorate.validation.FieldDescription;
 import ru.yandex.practicum.filmorate.validation.Marker;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User.
@@ -52,6 +52,7 @@ public class User {
     Instant birthday;
 
     @JsonIgnore
-    @FieldDescription(value = "id друзей пользователя", changeByCopy = false)
-    Set<Long> friends = new HashSet<>();
+    @FieldDescription(value = "id друзей пользователя со статусом связи (значений статуса может быть больше двух)", changeByCopy = false)
+    //Map<Long, StatusFriendship> friends = new HashMap<>();
+    Map<User, StatusFriendship> friends = new HashMap<>();
 }
